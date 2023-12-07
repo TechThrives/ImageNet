@@ -1,13 +1,11 @@
 import Cookies from "cookies";
-import clientPromise from "../../lib/mongodb";
+import db from "../../lib/mongodb";
 const { createHash } = require("node:crypto");
 
 export default async function handler(req, res) {
   if (req.method == "POST") {
     const username = req.body["username"];
     const guess = req.body["password"];
-    const client = await clientPromise;
-    const db = client.db("project-hub");
     const users = await db
       .collection("users")
       .find({ Username: username })

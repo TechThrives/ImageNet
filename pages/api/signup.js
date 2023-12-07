@@ -1,5 +1,5 @@
 import Cookies from "cookies";
-import clientPromise from "../../lib/mongodb";
+import db from "../../lib/mongodb";
 const { createHash } = require("node:crypto");
 
 export default async function handler(req, res) {
@@ -11,8 +11,6 @@ export default async function handler(req, res) {
       res.redirect("/signup?msg=The two passwords don't match");
       return;
     }
-    const client = await clientPromise;
-    const db = client.db("project-hub");
     const users = await db
       .collection("users")
       .find({ Username: username })
