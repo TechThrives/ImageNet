@@ -1,7 +1,4 @@
-import { useRouter } from "next/router";
-
 export default function Navbar({ children, username }) {
-  const router = useRouter();
   return (
     <div className="font-sans">
       <header className="mb-2 px-2 shadow">
@@ -70,29 +67,12 @@ export default function Navbar({ children, username }) {
                 </a>
               </li>
               <li className="mt-2 sm:mt-0">
-                {username ? (
-                  <>
-                    <a
-                      className="rounded-xl border-2 border-blue-600 px-6 mx-2 py-2 font-medium text-blue-600 hover:bg-blue-600 hover:text-white"
-                      href={`/user/${username}`}
-                    >
-                      Profile
-                    </a>
-                    <a
-                      className="rounded-xl border-2 border-blue-600 px-6 py-2 font-medium text-blue-600 hover:bg-blue-600 hover:text-white"
-                      href="/api/logout"
-                    >
-                      Logout
-                    </a>
-                  </>
-                ) : (
-                  <a
-                    className="rounded-xl border-2 border-blue-600 px-6 py-2 font-medium text-blue-600 hover:bg-blue-600 hover:text-white"
-                    href={router.route == "/login" ? "/signup" : "/login"}
-                  >
-                    {router.route == "/login" ? "Signup" : "Login"}
-                  </a>
-                )}
+                <a
+                  className="rounded-xl border-2 border-black px-6 py-2 font-medium text-black hover:bg-black hover:text-white"
+                  href="/upload"
+                >
+                  Upload Image
+                </a>
               </li>
             </ul>
           </nav>

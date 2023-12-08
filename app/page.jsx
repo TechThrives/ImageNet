@@ -1,6 +1,6 @@
 import Filter from "../components/filter";
 import Navbar from "../components/navbar";
-import { getCookie } from "cookies-next";
+import { cookies } from "next/headers";
 import Card from "../components/card";
 
 export default function HomePage({ username }) {
@@ -22,7 +22,7 @@ export default function HomePage({ username }) {
             </h2>
           </div>
 
-          <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:mt-16">
+          <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:mt-16">
             {[...Array(10)].map((_, index) => (
               <Card />
             ))}
@@ -31,14 +31,4 @@ export default function HomePage({ username }) {
       </section>
     </div>
   );
-}
-
-export async function getServerSideProps(context) {
-  const req = context.req;
-  const res = context.res;
-  var username = getCookie("username", { req, res });
-  if (username == undefined) {
-    username = false;
-  }
-  return { props: { username } };
 }

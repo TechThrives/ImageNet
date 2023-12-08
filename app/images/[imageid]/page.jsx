@@ -1,11 +1,9 @@
-import { getCookie } from "cookies-next";
+"use client";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import Navbar from "../../components/navbar";
+import Navbar from "/components/navbar";
 
-export default function ImageDetails({ username }) {
-  const router = useRouter();
-  const image = router.query.imageid;
+export default function ImageDetails({ params, username }) {
+  const image = params.imageid;
   return (
     <>
       <Navbar username={username} />
@@ -58,7 +56,7 @@ export default function ImageDetails({ username }) {
             <div class="lg:col-span-3 lg:row-end-1">
               <div class="lg:flex lg:items-start">
                 <div class="lg:order-2 lg:ml-5">
-                  <div class="max-w-xl overflow-hidden rounded-lg">
+                  <div class="max-w-xl overflow-hidden rounded-lg mx-auto">
                     <img
                       class="h-full w-full max-w-full object-cover"
                       src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
@@ -234,14 +232,4 @@ export default function ImageDetails({ username }) {
       </section>
     </>
   );
-}
-
-export async function getServerSideProps(context) {
-  const req = context.req;
-  const res = context.res;
-  var username = getCookie("username", { req, res });
-  if (username == undefined) {
-    username = false;
-  }
-  return { props: { username } };
 }

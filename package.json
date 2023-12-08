@@ -1,5 +1,5 @@
 {
-  "name": "login-signup-nextjs",
+  "name": "image-net",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,18 +9,28 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "cookies": "^0.8.0",
-    "cookies-next": "^2.1.1",
-    "mongodb": "^5.2.0",
-    "next": "13.3.0",
-    "react": "18.2.0",
-    "react-cookie": "^4.1.1",
-    "react-dom": "18.2.0",
-    "react-hook-form": "^7.43.9"
+    "axios": "^1.6.2",
+    "bcrypt": "^5.1.1",
+    "crypto": "^1.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.3",
+    "next": "14.0.4",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-dropzone": "^14.2.3"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.32",
-    "tailwindcss": "^3.3.5"
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.4",
+    "postcss": "^8",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5"
   }
 }
