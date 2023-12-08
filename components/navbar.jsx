@@ -4,7 +4,7 @@ export default function Navbar({ children, username }) {
   const router = useRouter();
   return (
     <div className="font-sans">
-      <header className="mb-2 px-4 shadow">
+      <header className="mb-2 px-2 shadow">
         <div className="relative mx-auto flex max-w-screen-lg flex-col py-4 sm:flex-row sm:items-center sm:justify-between">
           <a className="flex items-center text-2xl font-black" href="/">
             <span className="mr-2 text-3xl text-blue-600">
@@ -23,9 +23,14 @@ export default function Navbar({ children, username }) {
                 />
               </svg>
             </span>
-            <span>future</span>
+            <span>ImageNet</span>
           </a>
-          <input className="peer hidden" type="checkbox" id="navbar-open" />
+          <input
+            className="peer hidden"
+            type="checkbox"
+            readOnly
+            id="navbar-open"
+          />
           <label
             className="absolute right-0 mt-1 cursor-pointer text-xl sm:hidden"
             htmlFor="navbar-open"
@@ -94,7 +99,7 @@ export default function Navbar({ children, username }) {
         </div>
       </header>
 
-      <main className="container mx-auto my-4">{children}</main>
+      <main className="container mx-auto">{children}</main>
     </div>
   );
 }

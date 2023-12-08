@@ -1,22 +1,34 @@
-import Layout from "../components/layout";
-import Sidebar from "../components/sidebar";
+import Filter from "../components/filter";
 import Navbar from "../components/navbar";
 import { getCookie } from "cookies-next";
+import Card from "../components/card";
 
 export default function HomePage({ username }) {
   return (
-    <div class="min-h-screen flex flex-col">
-      <div class="bg-white w-full sticky top-0 z-50">
+    <div className="h-screen flex-col">
+      <div className="bg-white w-full top-0 z-50">
         <Navbar username={username} />
       </div>
 
-      <div class="flex">
-        <div class="bg-gray-200 w-64 h-full sticky">
-          <Sidebar />
-        </div>
-
-        <div class="flex"></div>
+      <div className="flex bg-white justify-center">
+        <Filter />
       </div>
+
+      <section class="bg-white py-6 text-gray-700 sm:py-6 lg:py-6">
+        <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+          <div class="mx-auto max-w-md text-center">
+            <h2 class="font-serif text-2xl font-bold sm:text-3xl">
+              Browse Images
+            </h2>
+          </div>
+
+          <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:mt-16">
+            {[...Array(10)].map((_, index) => (
+              <Card />
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

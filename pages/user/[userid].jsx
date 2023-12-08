@@ -1,4 +1,4 @@
-import Layout from "/components/layout";
+import Navbar from "/components/Navbar";
 import { getCookie } from "cookies-next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -7,7 +7,7 @@ export default function UserDetails({ username }) {
   const router = useRouter();
   const user = router.query.userid;
   return (
-    <Layout username={username}>
+    <Navbar username={username}>
       <div className="mx-2 my-10 rounded-xl border bg-white px-4 shadow-md sm:mx-auto sm:max-w-xl sm:px-8">
         <div className="mb-2 flex flex-col gap-y-6 border-b py-8 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center">
@@ -62,7 +62,7 @@ export default function UserDetails({ username }) {
         </div>
       </div>
       ;
-    </Layout>
+    </Navbar>
   );
 }
 

@@ -1,4 +1,4 @@
-import Layout from "../components/layout";
+import Navbar from "../components/Navbar";
 import { getCookie } from "cookies-next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -7,7 +7,7 @@ export default function SignupPage({ username }) {
   const router = useRouter();
   const { msg } = router.query;
   return (
-    <Layout>
+    <Navbar>
       {msg ? <h3 className="red">{msg}</h3> : <></>}
 
       <form
@@ -66,7 +66,7 @@ export default function SignupPage({ username }) {
           Login
         </Link>
       </form>
-    </Layout>
+    </Navbar>
   );
 }
 
