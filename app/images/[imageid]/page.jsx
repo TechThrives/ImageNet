@@ -1,9 +1,23 @@
-"use client";
 import Link from "next/link";
 import Navbar from "/components/navbar";
 
-export default function ImageDetails({ params, username }) {
-  const image = params.imageid;
+async function getImageInfo(imageId) {
+  try {
+    const response = await fetch(`http://localhost:3000/api/info/${imageId}`, {
+      cache: "no-store",
+    });
+    const jsonData = await response.json();
+    return jsonData;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+}
+
+export default async function ImageDetails({ params, username }) {
+  const imageid = params.imageid;
+  const imageUrl = `/api/image/${imageid}`;
+  const imageInfo = await getImageInfo(imageid);
+  console.log(imageInfo.uid);
   return (
     <>
       <Navbar username={username} />
@@ -44,7 +58,7 @@ export default function ImageDetails({ params, username }) {
                       class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 hover:text-gray-800"
                       aria-current="page"
                     >
-                      {image}
+                      {imageid}
                     </p>
                   </div>
                 </div>
@@ -59,7 +73,7 @@ export default function ImageDetails({ params, username }) {
                   <div class="max-w-xl overflow-hidden rounded-lg mx-auto">
                     <img
                       class="h-full w-full max-w-full object-cover"
-                      src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
+                      src={imageUrl}
                       alt=""
                     />
                   </div>
@@ -201,18 +215,14 @@ export default function ImageDetails({ params, username }) {
                     title=""
                     class="border-b-2 border-gray-900 py-4 text-sm font-medium text-gray-900 hover:border-gray-400 hover:text-gray-800"
                   >
-                    {" "}
-                    Description{" "}
+                    Description
                   </p>
                 </nav>
               </div>
 
               <div class="mt-8 flow-root sm:mt-12">
                 <h1 class="text-3xl font-bold">Delivered To Your Door</h1>
-                <p class="mt-4">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia
-                  accusantium nesciunt fuga.
-                </p>
+                <p class="mt-4">{imageInfo.description}</p>
                 <h1 class="mt-8 text-3xl font-bold">
                   From the Fine Farms of Brazil
                 </h1>
