@@ -51,21 +51,6 @@ export default function Navbar({ children, username }) {
             className="peer-checked:block hidden pl-2 py-6 sm:block sm:py-0"
           >
             <ul className="flex flex-col gap-y-4 sm:flex-row sm:gap-x-8">
-              <li className="">
-                <a className="text-gray-600 hover:text-blue-600" href="#">
-                  Pricing
-                </a>
-              </li>
-              <li className="">
-                <a className="text-gray-600 hover:text-blue-600" href="#">
-                  Demo
-                </a>
-              </li>
-              <li className="">
-                <a className="text-gray-600 hover:text-blue-600" href="#">
-                  Support
-                </a>
-              </li>
               <li className="mt-2 sm:mt-0">
                 <a
                   className="rounded-xl border-2 border-black px-6 py-2 font-medium text-black hover:bg-black hover:text-white"

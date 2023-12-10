@@ -1,39 +1,44 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Card({ image }) {
   const imageUrl = `/images/${image.uid}`;
   const url = `/api/image/${image.uid}`;
   return (
-    <article class="relative flex flex-col overflow-hidden rounded-lg border">
-      <Link href={imageUrl} class="aspect-square overflow-hidden">
-        <img
-          class="h-full w-full object-cover transition-all duration-300 hover:scale-125"
+    <article className="relative flex flex-col overflow-hidden rounded-lg border">
+      <Link href={imageUrl} className="aspect-square overflow-hidden">
+        <Image
+          className="h-full w-full object-cover transition-all duration-300 hover:scale-125"
           src={url}
           alt=""
+          width={1000}
+          height={1000}
+          placeholder="blur"
+          blurDataURL="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
         />
       </Link>
-      <div class="absolute top-0 m-2 rounded-full bg-white">
-        <p class="rounded-full bg-emerald-500 p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
+      <div className="absolute top-0 m-2 rounded-full bg-white">
+        <p className="rounded-full bg-emerald-500 p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
           Sale
         </p>
       </div>
 
-      <div class="my-4 mx-auto flex w-10/12 flex-col items-start justify-between">
-        <div class="flex items-center justify-between mb-2 w-full">
-          <h3 class="text-sm font-semibold">{image.title}</h3>
+      <div className="my-4 mx-auto flex w-10/12 flex-col items-start justify-between">
+        <div className="flex items-center justify-between mb-2 w-full">
+          <h3 className="text-sm font-semibold">{image.title}</h3>
         </div>
 
-        <p class="text-sm text-gray-400">{image.description}</p>
+        <p className="text-sm text-gray-400">{image.description}</p>
       </div>
 
       <Link
         href={imageUrl}
-        class="group border-2 border-black mx-auto mb-2 flex h-10 w-10/12 items-stretch overflow-hidden rounded-md text-gray-600"
+        className="group border-2 border-black mx-auto mb-2 flex h-10 w-10/12 items-stretch overflow-hidden rounded-md text-gray-600"
       >
-        <div class="flex w-full items-center justify-center bg-white text-xs uppercase transition group-hover:bg-black group-hover:text-white">
+        <div className="flex w-full items-center justify-center bg-white text-xs uppercase transition group-hover:bg-black group-hover:text-white">
           View
         </div>
-        <div class="flex items-center border-l-2 border-black justify-center bg-white px-5 transition group-hover:bg-black group-hover:text-white">
+        <div className="flex items-center border-l-2 border-black justify-center bg-white px-5 transition group-hover:bg-black group-hover:text-white">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
