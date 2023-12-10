@@ -11,7 +11,7 @@ export const GET = async (req, { params }) => {
     const info = await Image.findOne({ uid: image });
 
     if (!info) {
-      return NextResponse.json({ error: "Image not found" }, { status: 404 });
+      return NextResponse.json({ error: "Image not found" }, { status: 200 });
     }
 
     return NextResponse.json(info);

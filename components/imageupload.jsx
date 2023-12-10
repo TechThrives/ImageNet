@@ -24,6 +24,15 @@ const ImageUpload = () => {
     setImage(null);
   };
 
+  const handleAddTag = (e) => {
+    if (e.key === "Enter" && e.target.value.trim() !== "") {
+      e.preventDefault();
+      const newTag = e.target.value.trim();
+      setTags((prevTags) => [...prevTags, newTag]);
+      e.target.value = "";
+    }
+  };
+
   const { getInputProps } = useDropzone({ onDrop });
 
   const handleFormSubmit = async (e) => {
@@ -46,6 +55,11 @@ const ImageUpload = () => {
     } catch (error) {
       console.error("Error during upload:", error);
     }
+
+    setTitle("");
+    setDesc("");
+    setImage(null);
+    setTags([]);
   };
 
   return (
@@ -66,6 +80,7 @@ const ImageUpload = () => {
             type="text"
             placeholder="Title"
             name="title"
+            value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
@@ -78,6 +93,7 @@ const ImageUpload = () => {
             class="text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
             placeholder="Write your thoughts here..."
             name="title"
+            value={desc}
             onChange={(e) => setDesc(e.target.value)}
           ></textarea>
         </div>
@@ -90,14 +106,7 @@ const ImageUpload = () => {
             type="text"
             placeholder="Enter tags"
             name="tags"
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && e.target.value.trim() !== "") {
-                e.preventDefault(); // Prevents the default behavior of the Enter key (form submission)
-                const newTag = e.target.value.trim();
-                setTags((prevTags) => [...prevTags, newTag]);
-                e.target.value = ""; // Clear the input after adding the tag
-              }
-            }}
+            onKeyDown={handleAddTag}
           />
         </div>
         <div class="flex flex-wrap mt-2">

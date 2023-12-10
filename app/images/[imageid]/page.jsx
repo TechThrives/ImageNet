@@ -1,44 +1,39 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "/components/navbar";
 
-async function getImageInfo(imageId) {
-  try {
-    const response = await fetch(`http://localhost:3000/api/info/${imageId}`, {
-      cache: "no-store",
-    });
-    const jsonData = await response.json();
-    return jsonData;
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
-}
+export default function ImageDetails({ params }) {
+  const [imageInfo, setImageInfo] = useState({ title: "", tags: [], desc: "" });
 
-export default async function ImageDetails({ params, username }) {
   const imageid = params.imageid;
   const imageUrl = `/api/image/${imageid}`;
-  const imageInfo = await getImageInfo(imageid);
-  console.log(imageInfo.uid);
+
+  useEffect(() => {
+    getImageInfo(imageid);
+  }, []);
+
+  async function getImageInfo(imageId) {
+    try {
+      const apiUrl = `/api/info/${imageId}`;
+      const response = await fetch(apiUrl, { cache: "no-store" });
+      const jsonData = await response.json();
+      setImageInfo(jsonData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
   return (
     <>
-      <Navbar username={username} />
+      <Navbar />
       <section class="py-8 sm:py-8">
         <div class="container mx-auto px-4">
           <nav class="flex">
             <ol role="list" class="flex items-center">
               <li class="text-left">
-                <div class="-m-1">
-                  <Link
-                    href="#"
-                    class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 hover:text-gray-800"
-                  >
-                    Home
-                  </Link>
-                </div>
-              </li>
-
-              <li class="text-left">
                 <div class="flex items-center">
-                  <span class="mx-2 text-gray-400">/</span>
                   <div class="-m-1">
                     <Link
                       href="/images"
@@ -83,80 +78,18 @@ export default async function ImageDetails({ params, username }) {
 
             <div class="lg:col-span-2 lg:row-span-2 lg:row-end-2">
               <h1 class="sm: text-2xl font-bold text-gray-900 sm:text-3xl">
-                Afro-Brazillian Coffee
+                {imageInfo.title}
               </h1>
-
-              <div class="mt-5 flex items-center">
-                <div class="flex items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-                    />
-                  </svg>
-                </div>
-                <p class="ml-2 text-sm font-medium text-gray-500">989</p>
-              </div>
-
-              <h2 class="mt-8 text-base text-gray-900">Coffee Type</h2>
-              <div class="mt-3 flex select-none flex-wrap items-center gap-1">
-                <label class="">
-                  <input
-                    type="radio"
-                    name="type"
-                    value="Powder"
-                    class="peer sr-only"
-                    defaultChecked
-                  />
-                  <p class="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">
-                    Powder
-                  </p>
-                </label>
-                <label class="">
-                  <input
-                    type="radio"
-                    name="type"
-                    value="Whole Bean"
-                    class="peer sr-only"
-                  />
-                  <p class="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">
-                    Whole Bean
-                  </p>
-                </label>
-                <label class="">
-                  <input
-                    type="radio"
-                    name="type"
-                    value="Groud"
-                    class="peer sr-only"
-                  />
-                  <p class="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">
-                    Groud
-                  </p>
-                </label>
-              </div>
 
               <h2 class="mt-8 text-base text-gray-900">Tags</h2>
               <div class="mt-3 flex select-none flex-wrap items-center gap-1">
-                <label class="">
-                  <input
-                    type="radio"
-                    name="subscription"
-                    value="4 Months"
-                    class="peer sr-only"
-                  />
-                  <p class="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">
-                    4 Months
-                  </p>
-                </label>
+                {imageInfo.tags.map((tag, index) => (
+                  <label class="">
+                    <p class="hover:bg-black hover:text-white rounded-lg border border-black px-6 py-2 font-bold">
+                      {tag}
+                    </p>
+                  </label>
+                ))}
               </div>
 
               <div class="mt-10 flex flex-col items-center justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
