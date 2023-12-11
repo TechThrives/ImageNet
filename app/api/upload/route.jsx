@@ -18,19 +18,14 @@ export const POST = async (req) => {
     const imageField = formData.get("image");
     const base64Data = imageField.replace(/^data:image\/\w+;base64,/, "");
 
-    // Creating a Buffer from the base64 data
     const buffer = Buffer.from(base64Data, "base64");
 
-    // Creating a readable stream from the buffer
     const stream = Readable.from(buffer);
 
-    // Uploading the image to MongoDB GridFS
     const uploadStream = bucket.openUploadStream(uid, {});
 
-    // Piping the stream to the upload stream
     await stream.pipe(uploadStream);
 
-    // Creating a new Image document with title and image URL
     const newItem = new Image({
       title,
       description,
@@ -38,10 +33,12 @@ export const POST = async (req) => {
       tags,
     });
 
-    // Saving the new item to the database
     await newItem.save();
 
-    return NextResponse.json({ msg: "ok" });
+    return NextResponse.json(
+      { msg: "Image Upload Successfully" },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error in POST handler:", error);
     return NextResponse.json(

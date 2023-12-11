@@ -1,20 +1,20 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Filter from "../components/filter";
-import Navbar from "../components/navbar";
-import Card from "../components/card";
+import SimpleFilter from "/components/simplefilter";
+import Navbar from "/components/navbar";
+import Card from "/components/card";
 
-export default function HomePage() {
+export default function TagPage({ params }) {
   const [filteredImages, setFilteredImages] = useState([]);
   const [searchTitle, setSearchTitle] = useState("");
-  const [tags, setTags] = useState([]);
-  const [sort, setSort] = useState("desc");
   const [limit, setLimit] = useState(12);
   const [imageCount, setImageCount] = useState(0);
 
+  const tag = params.tag;
+
   async function getImageCount() {
     try {
-      const response = await fetch("/api/image", {
+      const response = await fetch(`/api/tag/${tag}`, {
         cache: "no-store",
       });
       const jsonData = await response.json();
@@ -27,12 +27,11 @@ export default function HomePage() {
   useEffect(() => {
     getImageCount();
     fetchImages();
-  }, [searchTitle, tags, sort, limit]);
+  }, [searchTitle, limit]);
 
   const fetchImages = async () => {
-    const allTags = tags.join(",");
     try {
-      const apiUrl = `/api/image?s=${searchTitle}&tags=${allTags}&sort=${sort}&limit=${limit}`;
+      const apiUrl = `/api/tag/${tag}?s=${searchTitle}&limit=${limit}`;
       const response = await fetch(apiUrl);
 
       if (response.ok) {
@@ -56,11 +55,7 @@ export default function HomePage() {
       </div>
 
       <div className="flex bg-white justify-center">
-        <Filter
-          onSearchTitleChange={(title) => setSearchTitle(title)}
-          onTagsChange={(newTags) => setTags(newTags)}
-          onSortChange={(newSort) => setSort(newSort)}
-        />
+        <SimpleFilter onSearchTitleChange={(title) => setSearchTitle(title)} />
       </div>
 
       <section className="bg-white py-6 text-gray-700 sm:py-6 lg:py-6">

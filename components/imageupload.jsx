@@ -1,13 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
-import axios from "axios";
 
 const ImageUpload = () => {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [image, setImage] = useState(null);
   const [tags, setTags] = useState([]);
+  const [msg, setMsg] = useState("");
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
 
   const onDrop = (acceptedFiles) => {
     const file = acceptedFiles[0];
@@ -36,6 +37,11 @@ const ImageUpload = () => {
   const { getInputProps } = useDropzone({ onDrop });
 
   const handleFormSubmit = async (e) => {
+    if (!title || !desc || !image || !tags.length) {
+      setMsg("Please fill all fields");
+      return;
+    }
+    setButtonDisabled(true);
     e.preventDefault();
 
     const formData = new FormData();
@@ -45,13 +51,18 @@ const ImageUpload = () => {
     formData.append("tags", tags);
 
     try {
-      const response = await axios.post("/api/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
       });
 
-      console.log("Upload success:", response.data);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+      setMsg(responseData.msg);
+      setButtonDisabled(false);
     } catch (error) {
       console.error("Error during upload:", error);
     }
@@ -144,7 +155,7 @@ const ImageUpload = () => {
                   viewBox="0 0 24 24"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M15.78 14.36a1 1 0 0 1-1.42 1.42l-2.82-2.83-2.83 2.83a1 1 0 1 1-1.42-1.42l2.83-2.82L7.3 8.7a1 1 0 0 1 1.42-1.42l2.83 2.83 2.82-2.83a1 1 0 0 1 1.42 1.42l-2.83 2.83 2.83 2.82z"
                   />
                 </svg>
@@ -152,6 +163,7 @@ const ImageUpload = () => {
             </div>
           ))}
         </div>
+
         <div className="grid grid-cols-1 space-y-2">
           <label
             className="text-sm font-bold text-gray-500 tracking-wide"
@@ -159,6 +171,7 @@ const ImageUpload = () => {
           >
             Attach Document
           </label>
+
           {!image ? (
             <div className="flex items-center justify-center w-full">
               <label className="flex flex-col rounded-lg border-4 border-dashed w-full h-60 p-10 group text-center">
@@ -191,7 +204,7 @@ const ImageUpload = () => {
                 onClick={handleCancel}
                 type="button"
                 value="Cancel"
-                className="my-5 w-1/3 flex justify-center bg-blue-500 text-gray-100 py-3 rounded-full
+                className=" disabled my-5 w-1/3 flex justify-center bg-blue-500 text-gray-100 py-3 rounded-full
                         hover:bg-red-400 shadow-lg cursor-pointer"
               />
             </>
@@ -202,14 +215,50 @@ const ImageUpload = () => {
         </p>
         <div>
           <button
+            disabled={isButtonDisabled}
             onClick={handleFormSubmit}
             className="my-5 w-full flex justify-center border-2 border-black bg-white text-black p-3 rounded-full tracking-wide
-                 font-semibold focus:outline-none focus:shadow-outline hover:bg-black hover:text-white shadow-lg cursor-pointer transition ease-in duration-300"
+                 font-semibold focus:outline-none focus:shadow-outline hover:bg-black hover:text-white shadow-lg cursor-pointer transition ease-in duration-300 disabled:bg-red-800 disabled:text-white disabled:cursor-no-drop"
           >
             Upload
           </button>
         </div>
       </div>
+      {msg != "" ? (
+        <div
+          id="toast-success"
+          class="flex mx-auto items-center w-full max-w-xs p-4 mb-4 text-white rounded-lg shadow bg-green-400"
+          role="alert"
+        >
+          <div class="ms-3 text-sm font-normal">{msg}</div>
+          <button
+            type="button"
+            class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8"
+            data-dismiss-target="#toast-success"
+            aria-label="Close"
+            onClick={(e) => setMsg("")}
+          >
+            <span class="sr-only">Close</span>
+            <svg
+              class="w-3 h-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 14"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+              />
+            </svg>
+          </button>
+        </div>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };

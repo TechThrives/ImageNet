@@ -7,30 +7,72 @@ import Image from "next/image";
 
 export default function ImageDetails({ params }) {
   const [imageInfo, setImageInfo] = useState({ title: "", tags: [], desc: "" });
+  const [code, setCode] = useState("");
+  const [codeError, setCodeError] = useState("");
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
 
   const imageid = params.imageid;
   const imageUrl = `/api/image/${imageid}`;
 
   useEffect(() => {
-    getImageInfo(imageid);
+    getImageInfo();
   }, []);
 
-  async function getImageInfo(imageId) {
+  const getImageInfo = async () => {
     try {
-      const apiUrl = `/api/info/${imageId}`;
+      const apiUrl = `/api/info/${imageid}`;
       const response = await fetch(apiUrl, { cache: "no-store" });
       const jsonData = await response.json();
       setImageInfo(jsonData);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  }
+  };
 
-  const handleDownload = () => {
-    const link = document.createElement("a");
-    link.href = imageUrl;
-    link.download = `${imageid}.png`;
-    link.click();
+  const handleDownload = async () => {
+    setButtonDisabled(true);
+    try {
+      if (code == "") {
+        const link = document.createElement("a");
+        link.href = imageUrl;
+        link.download = `${imageid}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        const apiUrl = `/api/download/${imageid}`;
+
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            code: code,
+          }),
+        });
+
+        if (!response.ok) {
+          const data = await response.json();
+          setCodeError(data.error);
+        } else {
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = `${imageid}.png`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setCodeError("");
+        }
+        setButtonDisabled(false);
+      }
+    } catch (error) {
+      console.error("Error download:", error);
+    }
+    setButtonDisabled(false);
   };
 
   return (
@@ -40,7 +82,7 @@ export default function ImageDetails({ params }) {
         <div className="container mx-auto px-4">
           <nav className="flex">
             <ol role="list" className="flex items-center">
-              <li className="text-left">
+              <li className="text-left" key="image">
                 <div className="flex items-center">
                   <div className="-m-1">
                     <Link
@@ -53,7 +95,7 @@ export default function ImageDetails({ params }) {
                 </div>
               </li>
 
-              <li className="text-left">
+              <li className="text-left" key="imageid">
                 <div className="flex items-center">
                   <span className="mx-2 text-gray-400">/</span>
                   <div className="-m-1">
@@ -99,12 +141,37 @@ export default function ImageDetails({ params }) {
               <h2 className="mt-8 text-base text-gray-900">Tags</h2>
               <div className="mt-3 flex select-none flex-wrap items-center gap-1">
                 {imageInfo.tags.map((tag, index) => (
-                  <label className="">
-                    <p className="hover:bg-black hover:text-white rounded-lg border border-black px-6 py-2 font-bold">
+                  <Link href={`/tag/${tag}`}>
+                    <p
+                      key={index}
+                      className="hover:bg-black hover:text-white rounded-lg border border-black px-6 py-2 font-bold"
+                    >
                       {tag}
                     </p>
-                  </label>
+                  </Link>
                 ))}
+              </div>
+
+              <div className="mt-10 items-center justify-between space-y-4 border-t">
+                <h2 className="mt-4 text-base text-gray-900">Code</h2>
+                <input
+                  type="name"
+                  name="search"
+                  className="h-12 w-full cursor-text rounded-md border border-gray-400 bg-gray-100 py-4 px-6 shadow-sm outline-none focus:border-black focus:ring-opacity-50"
+                  placeholder="Enter Code"
+                  id="code"
+                  value={code}
+                  onChange={(e) => {
+                    setCode(e.target.value.trim());
+                  }}
+                />
+                {codeError != "" ? (
+                  <span class="mt-4 ml-2 text-sm font-bold text-red-500">
+                    {codeError}
+                  </span>
+                ) : (
+                  <div></div>
+                )}
               </div>
 
               <div className="mt-10 flex flex-col items-center justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
@@ -114,8 +181,9 @@ export default function ImageDetails({ params }) {
 
                 <button
                   type="button"
-                  className="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800"
+                  className="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800 disabled:bg-red-800 disabled:text-white disabled:cursor-no-drop"
                   onClick={handleDownload}
+                  disabled={isButtonDisabled}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -170,19 +238,8 @@ export default function ImageDetails({ params }) {
               </div>
 
               <div className="mt-8 flow-root sm:mt-12">
-                <h1 className="text-3xl font-bold">Delivered To Your Door</h1>
-                <p className="mt-4">{imageInfo.description}</p>
-                <h1 className="mt-8 text-3xl font-bold">
-                  From the Fine Farms of Brazil
-                </h1>
-                <p className="mt-4">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio
-                  numquam enim facere.
-                </p>
-                <p className="mt-4">
-                  Amet consectetur adipisicing elit. Optio numquam enim facere.
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Dolore rerum nostrum eius facere, ad neque.
+                <p className="mb-4 font-medium text-gray-900">
+                  {imageInfo.description}
                 </p>
               </div>
             </div>
