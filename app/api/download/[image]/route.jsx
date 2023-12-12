@@ -10,13 +10,22 @@ export const POST = async (req, { params }) => {
 
     const code = data.code;
 
+    console.log(code);
+
     const { image } = params;
 
-    const info = await User.findOne({ code: code });
+    const user = await User.findOne({ code: code });
 
-    if (!info) {
+    if (!user) {
       return NextResponse.json({ error: "Invalid Code" }, { status: 404 });
     } else {
+      if (user.limit <= 0) {
+        return NextResponse.json(
+          { error: "Download limit exceeded" },
+          { status: 403 }
+        );
+      }
+
       const files = await bucket.find({ filename: image }).toArray();
 
       if (files.length === 0) {
@@ -26,6 +35,9 @@ export const POST = async (req, { params }) => {
       const file = files[0];
 
       const stream = bucket.openDownloadStreamByName(file.filename);
+
+      user.limit--;
+      await user.save();
 
       const headers = {
         "Content-Type": "image/png",

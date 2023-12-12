@@ -3,10 +3,16 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "/components/navbar";
+import Modal from "/components/modal";
 import Image from "next/image";
 
 export default function ImageDetails({ params }) {
-  const [imageInfo, setImageInfo] = useState({ title: "", tags: [], desc: "" });
+  const [imageInfo, setImageInfo] = useState({
+    title: "",
+    tags: [],
+    desc: "",
+    createdAt: "2022-12-11T07:12:01.692Z",
+  });
   const [code, setCode] = useState("");
   const [codeError, setCodeError] = useState("");
   const [isButtonDisabled, setButtonDisabled] = useState(false);
@@ -33,12 +39,12 @@ export default function ImageDetails({ params }) {
     setButtonDisabled(true);
     try {
       if (code == "") {
-        const link = document.createElement("a");
-        link.href = imageUrl;
-        link.download = `${imageid}.png`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        const freelink = document.createElement("a");
+        freelink.href = imageUrl;
+        freelink.download = `${imageid}.png`;
+        document.body.appendChild(freelink);
+        freelink.click();
+        document.body.removeChild(freelink);
       } else {
         const apiUrl = `/api/download/${imageid}`;
 
@@ -137,6 +143,16 @@ export default function ImageDetails({ params }) {
               <h1 className="sm: text-2xl font-bold text-gray-900 sm:text-3xl">
                 {imageInfo.title}
               </h1>
+              <span className="flex mt-4 text-sm font-bold text-gray-800">
+                {new Date(imageInfo.createdAt).toLocaleString("en-IN", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                  hour12: true,
+                })}
+              </span>
 
               <h2 className="mt-8 text-base text-gray-900">Tags</h2>
               <div className="mt-3 flex select-none flex-wrap items-center gap-1">
@@ -221,6 +237,23 @@ export default function ImageDetails({ params }) {
                     ></path>
                   </svg>
                   Copyright Free
+                </li>
+                <li className="flex items-center text-left text-sm font-medium text-gray-600">
+                  <svg
+                    className="mr-2 block h-5 w-5 align-middle text-gray-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z"
+                    />
+                  </svg>
+                  Get Free ImageNet Code <Modal />
                 </li>
               </ul>
             </div>
