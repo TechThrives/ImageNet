@@ -21,7 +21,7 @@ export const POST = async (req, { params }) => {
     } else {
       if (user.limit <= 0) {
         return NextResponse.json(
-          { error: "Download limit exceeded" },
+          { error: "Download limit exceeded for coupon code." },
           { status: 403 }
         );
       }

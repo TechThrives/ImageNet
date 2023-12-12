@@ -45,6 +45,7 @@ export default function ImageDetails({ params }) {
         document.body.appendChild(freelink);
         freelink.click();
         document.body.removeChild(freelink);
+        setCodeError("");
       } else {
         const apiUrl = `/api/download/${imageid}`;
 
@@ -73,11 +74,11 @@ export default function ImageDetails({ params }) {
           document.body.removeChild(link);
           setCodeError("");
         }
-        setButtonDisabled(false);
       }
     } catch (error) {
       console.error("Error download:", error);
     }
+    setCode("");
     setButtonDisabled(false);
   };
 
