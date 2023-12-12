@@ -4,12 +4,15 @@ export default function Modal() {
   const [showModal, setShowModal] = useState(false);
   const [msg, setMsg] = useState("");
   const [email, setEmail] = useState("");
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
 
   const handleSubmit = async (e) => {
     if (!email) {
       setMsg("Please fill Email Address");
       return;
     }
+
+    setButtonDisabled(true);
     e.preventDefault();
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -34,11 +37,11 @@ export default function Modal() {
         const data = await response.json();
         setMsg(data.msg);
       }
-
-      setEmail("");
+      setButtonDisabled(false);
     } catch (error) {
       console.error("Error during code reedemption:", error);
     }
+    setEmail("");
   };
 
   return (
@@ -101,8 +104,9 @@ export default function Modal() {
                     <span class="">I agree to the Terms and Conditions</span>
                   </label>
                   <button
-                    class="mt-10 bg-gray-900 px-6 py-3 text-white"
+                    class="mt-10 bg-gray-900 px-6 py-3 text-white disabled:bg-red-800 disabled:cursor-no-drop"
                     onClick={handleSubmit}
+                    disabled={isButtonDisabled}
                   >
                     Get Code
                   </button>

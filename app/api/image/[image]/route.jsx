@@ -1,8 +1,7 @@
 import connectToDb from "@/lib/config";
 import { NextResponse } from "next/server";
 import Sharp from "sharp";
-import { readFile, writeFile } from "fs/promises";
-import { resolve } from "path";
+import { readFile } from "fs/promises";
 import streamToBuffer from "stream-to-buffer";
 
 export const GET = async (req, { params }) => {
@@ -30,7 +29,7 @@ export const GET = async (req, { params }) => {
 
     const watermarked = Sharp(buffer).composite([
       {
-        input: await readFile(resolve("./app/api/image/[image]/watermark.png")),
+        input: await readFile("./app/api/image/[image]/watermark.png"),
         gravity: "southeast",
       },
     ]);
