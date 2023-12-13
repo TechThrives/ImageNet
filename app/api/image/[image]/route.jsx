@@ -1,4 +1,5 @@
 import connectToDb from "@/lib/config";
+import Image from "@/lib/models/imageModels";
 import { NextResponse } from "next/server";
 import Sharp from "sharp";
 import { readFile } from "fs/promises";
@@ -43,6 +44,32 @@ export const GET = async (req, { params }) => {
     });
   } catch (error) {
     console.error("Error in GET handler:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
+};
+
+export const DELETE = async (req, { params }) => {
+  const { client, bucket } = await connectToDb();
+
+  try {
+    const { image } = params;
+    const deletedImage = await Image.deleteOne({ uid: image });
+
+    const files = await bucket
+      .find({
+        filename: image,
+      })
+      .toArray();
+
+    const file = files[0];
+    bucket.delete(file._id);
+
+    return NextResponse.json({ msg: "Image File Deleted" });
+  } catch (error) {
+    console.error("Error in DETETE handler:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

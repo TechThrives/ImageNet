@@ -17,8 +17,12 @@ export default function TagPage({ params }) {
       const response = await fetch(`/api/tag/${tag}`, {
         cache: "no-store",
       });
-      const jsonData = await response.json();
-      setImageCount(jsonData.length);
+      if (response.ok) {
+        const jsonData = await response.json();
+        setImageCount(jsonData.length);
+      } else {
+        setImageCount(0);
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
     }

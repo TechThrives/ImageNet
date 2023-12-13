@@ -10,7 +10,7 @@ export default function Card({ image }) {
         <Image
           className="h-full w-full object-cover transition-all duration-300 hover:scale-125"
           src={url}
-          alt=""
+          alt="ImageNet"
           width={1000}
           height={1000}
           placeholder="blur"

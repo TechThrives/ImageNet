@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Navbar from "/components/navbar";
 import Modal from "/components/modal";
 import Image from "next/image";
@@ -17,6 +18,8 @@ export default function ImageDetails({ params }) {
   const [codeError, setCodeError] = useState("");
   const [isButtonDisabled, setButtonDisabled] = useState(false);
 
+  const { push } = useRouter();
+
   const imageid = params.imageid;
   const imageUrl = `/api/image/${imageid}`;
 
@@ -28,8 +31,13 @@ export default function ImageDetails({ params }) {
     try {
       const apiUrl = `/api/info/${imageid}`;
       const response = await fetch(apiUrl, { cache: "no-store" });
-      const jsonData = await response.json();
-      setImageInfo(jsonData);
+
+      if (response.ok) {
+        const jsonData = await response.json();
+        setImageInfo(jsonData);
+      } else {
+        push("/");
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -126,6 +134,7 @@ export default function ImageDetails({ params }) {
                     <Image
                       className="h-full w-full max-w-full object-cover"
                       src={imageUrl}
+                      alt="ImageNet"
                       width={1000}
                       height={1000}
                       placeholder="blur"

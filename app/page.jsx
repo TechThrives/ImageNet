@@ -17,8 +17,12 @@ export default function HomePage() {
       const response = await fetch("/api/image", {
         cache: "no-store",
       });
-      const jsonData = await response.json();
-      setImageCount(jsonData.length);
+      if (response.ok) {
+        const jsonData = await response.json();
+        setImageCount(jsonData.length);
+      } else {
+        setImageCount(0);
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
     }

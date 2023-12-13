@@ -22,10 +22,6 @@ export const POST = async (req) => {
 
     const stream = Readable.from(buffer);
 
-    const uploadStream = bucket.openUploadStream(uid, {});
-
-    await stream.pipe(uploadStream);
-
     const newItem = new Image({
       title,
       description,
@@ -34,6 +30,10 @@ export const POST = async (req) => {
     });
 
     await newItem.save();
+
+    const uploadStream = bucket.openUploadStream(uid, {});
+
+    await stream.pipe(uploadStream);
 
     return NextResponse.json(
       { msg: "Image Upload Successfully" },
