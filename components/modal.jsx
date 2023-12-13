@@ -12,22 +12,24 @@ export default function Modal() {
       return;
     }
 
-    setButtonDisabled(true);
-    e.preventDefault();
-
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(email)) {
       setMsg("Please Enter Valid Email Address");
       return;
     }
 
-    const formData = new FormData();
-    formData.append("email", email);
+    setButtonDisabled(true);
+    e.preventDefault();
 
     try {
       const response = await fetch("/api/user", {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+        }),
       });
 
       if (!response.ok) {

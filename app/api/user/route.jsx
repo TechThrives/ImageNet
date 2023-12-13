@@ -9,9 +9,9 @@ export const POST = async (req) => {
   try {
     const { client } = await connectToDb();
 
-    const formData = await req.formData();
+    const data = await req.json();
 
-    const email = formData.get("email");
+    const email = data.email;
 
     const user = await User.findOne({ email: email });
 

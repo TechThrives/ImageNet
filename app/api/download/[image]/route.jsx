@@ -10,8 +10,6 @@ export const POST = async (req, { params }) => {
 
     const code = data.code;
 
-    console.log(code);
-
     const { image } = params;
 
     const user = await User.findOne({ code: code });
