@@ -13,7 +13,10 @@ export const GET = async (req) => {
     const sortOptions = {};
 
     if (search && search !== "") {
-      conditions.title = { $regex: new RegExp(search, "i") };
+      conditions.$or = [
+        { title: { $regex: new RegExp(search, "i") } },
+        { description: { $regex: new RegExp(search, "i") } },
+      ];
     }
 
     if (tags && tags !== "") {

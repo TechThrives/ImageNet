@@ -67,7 +67,7 @@ export default function Filter({
           type="name"
           name="search"
           className="h-12 w-full cursor-text rounded-md border border-gray-100 bg-gray-100 py-4 pr-40 pl-12 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-          placeholder="Search by title"
+          placeholder="Search by title or description"
           value={searchTitle}
           onChange={handleSearchTitleChange}
         />

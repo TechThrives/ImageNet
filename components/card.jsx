@@ -19,7 +19,7 @@ export default function Card({ image }) {
       </Link>
       <div className="absolute top-0 m-2 rounded-full bg-white">
         <p className="rounded-full bg-emerald-500 p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
-          Sale
+          Free
         </p>
       </div>
 
@@ -28,7 +28,11 @@ export default function Card({ image }) {
           <h3 className="text-sm font-semibold">{image.title}</h3>
         </div>
 
-        <p className="text-sm text-gray-400">{image.description}</p>
+        <p className="text-sm text-gray-400">
+          {image.description.length > 150
+            ? `${image.description.slice(0, 150)}...`
+            : image.description}
+        </p>
       </div>
 
       <Link

@@ -11,7 +11,10 @@ export const GET = async (req, { params }) => {
     const conditions = {};
 
     if (search && search !== "") {
-      conditions.title = { $regex: new RegExp(search, "i") };
+      conditions.$or = [
+        { title: { $regex: new RegExp(search, "i") } },
+        { description: { $regex: new RegExp(search, "i") } },
+      ];
     }
 
     conditions.tags = { $regex: new RegExp(tag, "i") };

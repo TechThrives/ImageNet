@@ -204,7 +204,7 @@ const ImageUpload = () => {
                 onClick={handleCancel}
                 type="button"
                 value="Cancel"
-                className=" disabled my-5 w-1/3 flex justify-center bg-blue-500 text-gray-100 py-3 rounded-full
+                className="disabled my-5 w-1/3 flex justify-center bg-blue-500 text-gray-100 py-3 rounded-full
                         hover:bg-red-400 shadow-lg cursor-pointer"
               />
             </>
