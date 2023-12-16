@@ -10,7 +10,7 @@ export default function Upload() {
   const handlePasswordSubmit = (e) => {
     e.preventDefault();
 
-    const correctPassword = "yourSecretPassword";
+    const correctPassword = "Upload@ImageNet";
     const isCorrect = password === correctPassword;
 
     setIsPasswordCorrect(isCorrect);

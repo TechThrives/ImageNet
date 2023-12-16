@@ -11,7 +11,7 @@ export default function Navbar() {
                 viewBox="0 0 24 24"
                 strokeWidth={2}
                 stroke="currentColor"
-                className="w-7 h-7"
+                className="w-6 h-6"
               >
                 <path
                   strokeLinecap="round"
@@ -22,7 +22,7 @@ export default function Navbar() {
             </span>
             <span>ImageNet</span>
           </a>
-          <input
+          {/* <input
             className="peer hidden"
             type="checkbox"
             readOnly
@@ -46,7 +46,7 @@ export default function Navbar() {
               />
             </svg>
           </label>
-          {/* <nav
+          <nav
             aria-label="Header Navigation"
             className="peer-checked:block hidden pl-2 py-6 sm:block sm:py-0"
           >
