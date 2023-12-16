@@ -58,16 +58,19 @@ export const DELETE = async (req, { params }) => {
     const { image } = params;
     const deletedImage = await Image.deleteOne({ uid: image });
 
-    const files = await bucket
-      .find({
-        filename: image,
-      })
-      .toArray();
+    if (deletedImage.deletedCount) {
+      const files = await bucket
+        .find({
+          filename: image,
+        })
+        .toArray();
 
-    const file = files[0];
-    bucket.delete(file._id);
+      const file = files[0];
+      bucket.delete(file._id);
 
-    return NextResponse.json({ msg: "Image File Deleted" });
+      return NextResponse.json({ msg: "Image File Deleted" }, { status: 200 });
+    }
+    return NextResponse.json({ error: "Image Not Found" }, { status: 404 });
   } catch (error) {
     console.error("Error in DETETE handler:", error);
     return NextResponse.json(

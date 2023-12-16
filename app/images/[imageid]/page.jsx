@@ -192,7 +192,7 @@ export default function ImageDetails({ params }) {
                   }}
                 />
                 {codeError != "" ? (
-                  <span class="mt-4 ml-2 text-sm font-bold text-red-500">
+                  <span className="mt-4 ml-2 text-sm font-bold text-red-500">
                     {codeError}
                   </span>
                 ) : (

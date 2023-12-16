@@ -78,15 +78,15 @@ export default function Modal() {
                     />
                   </svg>
                 </div>
-                <div class="flex max-w-lg flex-col border-gray-50 py-6 px-12 shadow-md">
-                  <p class="font-serif text-4xl font-bold">Try it now</p>
-                  <p class="mt-3 font-medium">
+                <div className="flex max-w-lg flex-col border-gray-50 py-6 px-12 shadow-md">
+                  <p className="font-serif text-4xl font-bold">Try it now</p>
+                  <p className="mt-3 font-medium">
                     Start the free trial no obligations
                   </p>
-                  <div class="mt-8 flex flex-col">
-                    <p class="text-sm text-gray-600">Email Address</p>
+                  <div className="mt-8 flex flex-col">
+                    <p className="text-sm text-gray-600">Email Address</p>
                     <input
-                      class="mt-2 border bg-gray-50 py-4 px-4 outline-none ring-gray-800 focus:ring"
+                      className="mt-2 border bg-gray-50 py-4 px-4 outline-none ring-gray-800 focus:ring"
                       type="email"
                       name="email"
                       id="email"
@@ -95,27 +95,31 @@ export default function Modal() {
                       placeholder="Enter your email address"
                     />
                   </div>
-                  <label for="terms" class="mt-6 flex items-center">
+                  <label for="terms" className="mt-6 flex items-center">
                     <input
-                      class="mr-4 h-6 w-6 accent-gray-900"
+                      className="mr-4 h-6 w-6 accent-gray-900"
                       type="checkbox"
                       name="terms"
                       id=""
                       checked
                     />
-                    <span class="">I agree to the Terms and Conditions</span>
+                    <span className="">
+                      I agree to the Terms and Conditions
+                    </span>
                   </label>
                   <button
-                    class="mt-10 bg-gray-900 px-6 py-3 text-white disabled:bg-red-800 disabled:cursor-no-drop"
+                    className="mt-10 bg-gray-900 px-6 py-3 text-white disabled:bg-red-800 disabled:cursor-no-drop"
                     onClick={handleSubmit}
                     disabled={isButtonDisabled}
                   >
                     Get Code
                   </button>
                   {msg != "" ? (
-                    <p class="mt-6 text-center text-sm text-red-600">{msg}</p>
+                    <p className="mt-6 text-center text-sm text-red-600">
+                      {msg}
+                    </p>
                   ) : null}
-                  <p class="mt-6 text-center text-sm">
+                  <p className="mt-6 text-center text-sm">
                     We may use your email in order to: verify your identity,
                     sell products to you, provide our services.
                   </p>

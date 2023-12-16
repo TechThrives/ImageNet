@@ -29,8 +29,8 @@ export default function Card({ image }) {
         </div>
 
         <p className="text-sm text-gray-400">
-          {image.description.length > 150
-            ? `${image.description.slice(0, 150)}...`
+          {image.description.length > 80
+            ? `${image.description.slice(0, 80)}...`
             : image.description}
         </p>
       </div>
