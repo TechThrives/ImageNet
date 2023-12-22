@@ -10,10 +10,7 @@ async function connectToDb() {
     return { client, bucket };
   }
 
-  await mongoose.connect(MONGOB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  await mongoose.connect(MONGOB_URI);
 
   client = mongoose.connection;
   const db = mongoose.connection;
