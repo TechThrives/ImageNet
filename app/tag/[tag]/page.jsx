@@ -12,41 +12,41 @@ export default function TagPage({ params }) {
 
   const tag = params.tag;
 
-  async function getImageCount() {
-    try {
-      const response = await fetch(`/api/tag/${tag}`, {
-        cache: "no-store",
-      });
-      if (response.ok) {
-        const jsonData = await response.json();
-        setImageCount(jsonData.length);
-      } else {
-        setImageCount(0);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
-
   useEffect(() => {
+    async function getImageCount() {
+      try {
+        const response = await fetch(`/api/tag/${tag}`, {
+          cache: "no-store",
+        });
+        if (response.ok) {
+          const jsonData = await response.json();
+          setImageCount(jsonData.length);
+        } else {
+          setImageCount(0);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    const fetchImages = async () => {
+      try {
+        const apiUrl = `/api/tag/${tag}?s=${searchTitle}&limit=${limit}`;
+        const response = await fetch(apiUrl);
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.length > 0) setFilteredImages(data);
+          else setFilteredImages([]);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
     getImageCount();
     fetchImages();
   }, [searchTitle, limit]);
-
-  const fetchImages = async () => {
-    try {
-      const apiUrl = `/api/tag/${tag}?s=${searchTitle}&limit=${limit}`;
-      const response = await fetch(apiUrl);
-
-      if (response.ok) {
-        const data = await response.json();
-        if (data.length > 0) setFilteredImages(data);
-        else setFilteredImages([]);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
 
   const handleLoadMore = () => {
     setLimit(limit + 8);

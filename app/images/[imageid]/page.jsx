@@ -24,24 +24,23 @@ export default function ImageDetails({ params }) {
   const imageUrl = `/api/image/${imageid}`;
 
   useEffect(() => {
-    getImageInfo();
-  }, []);
+    const getImageInfo = async () => {
+      try {
+        const apiUrl = `/api/info/${imageid}`;
+        const response = await fetch(apiUrl, { cache: "no-store" });
 
-  const getImageInfo = async () => {
-    try {
-      const apiUrl = `/api/info/${imageid}`;
-      const response = await fetch(apiUrl, { cache: "no-store" });
-
-      if (response.ok) {
-        const jsonData = await response.json();
-        setImageInfo(jsonData);
-      } else {
-        push("/");
+        if (response.ok) {
+          const jsonData = await response.json();
+          setImageInfo(jsonData);
+        } else {
+          push("/");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+    };
+    getImageInfo();
+  });
 
   const handleDownload = async () => {
     setButtonDisabled(true);

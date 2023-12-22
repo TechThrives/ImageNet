@@ -12,42 +12,42 @@ export default function HomePage() {
   const [limit, setLimit] = useState(12);
   const [imageCount, setImageCount] = useState(0);
 
-  async function getImageCount() {
-    try {
-      const response = await fetch("/api/image", {
-        cache: "no-store",
-      });
-      if (response.ok) {
-        const jsonData = await response.json();
-        setImageCount(jsonData.length);
-      } else {
-        setImageCount(0);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
-
   useEffect(() => {
+    async function getImageCount() {
+      try {
+        const response = await fetch("/api/image", {
+          cache: "no-store",
+        });
+        if (response.ok) {
+          const jsonData = await response.json();
+          setImageCount(jsonData.length);
+        } else {
+          setImageCount(0);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    const fetchImages = async () => {
+      const allTags = tags.join(",");
+      try {
+        const apiUrl = `/api/image?s=${searchTitle}&tags=${allTags}&sort=${sort}&limit=${limit}`;
+        const response = await fetch(apiUrl);
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.length > 0) setFilteredImages(data);
+          else setFilteredImages([]);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
     getImageCount();
     fetchImages();
   }, [searchTitle, tags, sort, limit]);
-
-  const fetchImages = async () => {
-    const allTags = tags.join(",");
-    try {
-      const apiUrl = `/api/image?s=${searchTitle}&tags=${allTags}&sort=${sort}&limit=${limit}`;
-      const response = await fetch(apiUrl);
-
-      if (response.ok) {
-        const data = await response.json();
-        if (data.length > 0) setFilteredImages(data);
-        else setFilteredImages([]);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
 
   const handleLoadMore = () => {
     setLimit(limit + 8);
