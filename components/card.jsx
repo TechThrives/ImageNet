@@ -1,6 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 
+const imageLoader = ({ src, width, quality }) => {
+  return `${src}?w=${width}`;
+};
+
 export default function Card({ image }) {
   const imageUrl = `/images/${image.uid}`;
   const url = `/api/image/${image.uid}`;
@@ -9,6 +13,7 @@ export default function Card({ image }) {
       <Link href={imageUrl} className="aspect-square overflow-hidden">
         <Image
           className="h-full w-full object-cover transition-all duration-300 hover:scale-125"
+          loader={imageLoader}
           src={url}
           alt="ImageNet"
           width={1000}

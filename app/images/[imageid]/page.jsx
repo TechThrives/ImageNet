@@ -7,6 +7,10 @@ import Navbar from "/components/navbar";
 import Modal from "/components/modal";
 import Image from "next/image";
 
+const imageLoader = ({ src, width, quality }) => {
+  return `${src}?w=${width}`;
+};
+
 export default function ImageDetails({ params }) {
   const [imageInfo, setImageInfo] = useState({
     title: "",
@@ -40,7 +44,7 @@ export default function ImageDetails({ params }) {
       }
     };
     getImageInfo();
-  });
+  }, []);
 
   const handleDownload = async () => {
     setButtonDisabled(true);
@@ -132,6 +136,7 @@ export default function ImageDetails({ params }) {
                   <div className="max-w-xl overflow-hidden rounded-lg mx-auto">
                     <Image
                       className="h-full w-full max-w-full object-cover"
+                      loader={imageLoader}
                       src={imageUrl}
                       alt="ImageNet"
                       width={1000}
