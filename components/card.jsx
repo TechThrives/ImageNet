@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 const imageLoader = ({ src, width, quality }) => {
-  return `${src}?w=${width}`;
+  return `${src}`;
 };
 
 export default function Card({ image }) {

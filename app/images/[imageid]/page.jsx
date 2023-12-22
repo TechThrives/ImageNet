@@ -8,7 +8,7 @@ import Modal from "/components/modal";
 import Image from "next/image";
 
 const imageLoader = ({ src, width, quality }) => {
-  return `${src}?w=${width}`;
+  return `${src}`;
 };
 
 export default function ImageDetails({ params }) {
