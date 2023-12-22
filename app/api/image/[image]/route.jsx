@@ -28,9 +28,13 @@ export const GET = async (req, { params }) => {
       });
     });
 
+    const watermark = await readFile(
+      process.cwd() + "/app/api/image/[image]/watermark.png"
+    );
+
     const watermarked = Sharp(buffer).composite([
       {
-        input: await readFile(process.cwd() + "/public/watermark.png"),
+        input: watermark,
         gravity: "southeast",
       },
     ]);
