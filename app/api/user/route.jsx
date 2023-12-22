@@ -34,7 +34,7 @@ export const POST = async (req) => {
     });
 
     const htmlTemplate = fs.readFileSync(
-      "./app/api/user/emailTemplate.html",
+      process.cwd() + "/app/api/user/emailTemplate.html",
       "utf8"
     );
 

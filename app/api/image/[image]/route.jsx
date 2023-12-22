@@ -30,7 +30,9 @@ export const GET = async (req, { params }) => {
 
     const watermarked = Sharp(buffer).composite([
       {
-        input: await readFile("./app/api/image/[image]/watermark.png"),
+        input: await readFile(
+          process.cwd() + "/app/api/image/[image]/watermark.png"
+        ),
         gravity: "southeast",
       },
     ]);
