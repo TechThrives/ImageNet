@@ -166,11 +166,8 @@ export default function ImageDetails({ params }) {
               <h2 className="mt-8 text-base text-gray-900">Tags</h2>
               <div className="mt-3 flex select-none flex-wrap items-center gap-1">
                 {imageInfo.tags.map((tag, index) => (
-                  <Link href={`/tag/${tag}`}>
-                    <p
-                      key={index}
-                      className="hover:bg-black hover:text-white rounded-lg border border-black px-6 py-2 font-bold"
-                    >
+                  <Link href={`/tag/${tag}`} key={index}>
+                    <p className="hover:bg-black hover:text-white rounded-lg border border-black px-6 py-2 font-bold">
                       {tag}
                     </p>
                   </Link>

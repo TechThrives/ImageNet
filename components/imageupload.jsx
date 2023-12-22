@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
+import Image from "next/image";
 
 const ImageUpload = () => {
   const [title, setTitle] = useState("");
@@ -177,9 +178,12 @@ const ImageUpload = () => {
               <label className="flex flex-col rounded-lg border-4 border-dashed w-full h-60 p-10 group text-center">
                 <div className="h-full w-full text-center flex flex-col items-center justify-center items-center">
                   <div className="flex flex-auto max-h-48 w-2/5 mx-auto -mt-10">
-                    <img
+                    <Image
                       className="has-mask h-36 object-center"
-                      src="https://img.freepik.com/free-vector/image-upload-concept-landing-page_52683-27130.jpg?size=338&ext=jpg"
+                      src="/image-upload.jpg"
+                      alt="ImageNet"
+                      width={1000}
+                      height={1000}
                     />
                   </div>
                   <p className="pointer-none text-gray-500 ">
@@ -198,7 +202,12 @@ const ImageUpload = () => {
           ) : (
             <>
               <div className="flex flex-auto mx-auto mt-10">
-                <img className="max-w-full h-auto rounded-lg" src={image} />
+                <Image
+                  className="max-w-full h-auto rounded-lg"
+                  src={image}
+                  width={1000}
+                  height={1000}
+                />
               </div>
               <input
                 onClick={handleCancel}
