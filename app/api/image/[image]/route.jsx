@@ -7,7 +7,7 @@ import streamToBuffer from "stream-to-buffer";
 
 export const GET = async (req, { params }) => {
   try {
-    const { bucket } = await connectToDb();
+    const { client, bucket } = await connectToDb();
 
     const { image } = params;
 
@@ -28,9 +28,13 @@ export const GET = async (req, { params }) => {
       });
     });
 
-    const watermark = await readFile(
-      process.cwd() + "/app/api/image/[image]/watermark.png"
-    );
+    // const watermark = await readFile(
+    //   process.cwd() + "/app/api/image/[image]/watermark.png"
+    // );
+
+    const watermarkCollection = client.collection("watermark");
+    const wfile = await watermarkCollection.findOne({ name: "watermark" });
+    const watermark = Buffer.from(wfile.image, "base64");
 
     const watermarked = Sharp(buffer).composite([
       {
