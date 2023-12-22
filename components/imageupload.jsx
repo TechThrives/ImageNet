@@ -207,6 +207,7 @@ const ImageUpload = () => {
                   src={image}
                   width={1000}
                   height={1000}
+                  alt="ImageNet"
                 />
               </div>
               <input

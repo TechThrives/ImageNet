@@ -10,9 +10,9 @@ export default function TagPage({ params }) {
   const [limit, setLimit] = useState(12);
   const [imageCount, setImageCount] = useState(0);
 
-  const tag = params.tag;
-
   useEffect(() => {
+    const tag = params.tag;
+
     async function getImageCount() {
       try {
         const response = await fetch(`/api/tag/${tag}`, {

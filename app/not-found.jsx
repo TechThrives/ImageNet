@@ -5,8 +5,8 @@ export default function NotFound() {
         <h1 className="text-9xl font-bold text-gray-800 mb-4">404</h1>
         <h1 className="text-2xl font-bold text-gray-800 mb-4">Not Found</h1>
         <p className="text-lg text-gray-600 mb-8">
-          The page you're looking for might be under construction or does not
-          exist.
+          The page you&apos;re looking for might be under construction or does
+          not exist.
         </p>
         <a href="/" className="text-blue-500 hover:underline">
           Go back to home
